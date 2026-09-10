@@ -1,10 +1,6 @@
 {
   "private": "true",
   "scripts": {
-    "build": "hugo --gc --minify",
     "dev": "hugo server"
-  },
-  "devDependencies": {
-    "hugo": "^0.0.3"
   }
 }
