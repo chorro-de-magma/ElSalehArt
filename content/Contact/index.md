@@ -1,5 +1,5 @@
 ---
-description: Phone number:  Email:
+description: Get in touch
 menus: "main"
 title: Contact
 weight: 4
