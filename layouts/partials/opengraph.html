@@ -41,6 +41,8 @@
 {{ end }}
 {{ $image := ($images.GetMatch (.Params.featured_image | default "*feature*")) | default (index $images $index) }}
 {{- with $image -}}
-  {{ $full := $image.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
-  <meta property="og:image" content="{{ $full.Permalink }}" />
+  {{ if $image.MediaType.IsImage }}
+    {{ $full := $image.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
+    <meta property="og:image" content="{{ $full.Permalink }}" />
+  {{ end }}
 {{- end -}}
