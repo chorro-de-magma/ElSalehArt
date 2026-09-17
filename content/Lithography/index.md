@@ -1,12 +1,11 @@
 ---
 date: 2023-01-12
-title: Featured Album
-params:
-  featured: true
-  private: true # do not show in list, only as feature
-description: This is a featured album. It is private, so it is only shown on the homepage.
+title: Lithography
+weight: 0
+description: Lithographic prints and works exploring traditional printing techniques.
+menus: "main"
 resources:
-  - src: jeremy-bishop-pjszS6Q2g_Y-unsplash.jpg
+  - src: signal-2026-09-16-12-36-46-958_002.jpg
     params:
       cover: true
 ---
