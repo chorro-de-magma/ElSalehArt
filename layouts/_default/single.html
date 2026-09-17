@@ -1,7 +1,0 @@
-{{ define "main" }}
-  <div class="gallery">
-    {{ range .Resources.ByType "image" }}
-      <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
-    {{ end }}
-  </div>
-{{ end }}
