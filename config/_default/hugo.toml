@@ -6,18 +6,17 @@ languageCode = "en"
 timeZone = "Europe/Berlin"
 timeout = "120s"
 title = "Gallery"
-outputs:
-  home:
-    - HTML
-  page:
-    - HTML
-  section:
-    - HTML
+
+[outputs]
+home = ["HTML"]
+page = ["HTML"]
+section = ["HTML"]
 
 [params]
-  defaultTheme = "dark"
-  description = "Art Gallery"
-  title = "El Saleh Art"
-  [params.author]
-    email = "user@example.com"
-    name = "Your Name"
+defaultTheme = "dark"
+description = "Art Gallery"
+title = "El Saleh Art"
+
+[params.author]
+email = "user@example.com"
+name = "Your Name"
