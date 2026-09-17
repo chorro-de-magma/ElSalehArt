@@ -1,8 +1,9 @@
 {{ define "main" }}
-  {{ partial "title.html" . }}
-  <section class="galleries">
-    {{ range where .Pages "Params.private" "ne" true }}
-      {{ partial "album-card.html" . }}
+  <h2>{{ .Title }}</h2>
+  <p>{{ .Description }}</p>
+  <div class="gallery">
+    {{ range .Resources.ByType "image" }}
+      <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
     {{ end }}
-  </section>
+  </div>
 {{ end }}

@@ -1,10 +1,7 @@
 {{ define "main" }}
-  {{ partial "title.html" . }}
-  {{ partial "gallery.html" . }}
-  {{ partial "related.html" . }}
-  {{ with .Content }}
-    <section class="prose">
-      {{ . }}
-    </section>
-  {{ end }}
+  <div class="gallery">
+    {{ range .Resources.ByType "image" }}
+      <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
+    {{ end }}
+  </div>
 {{ end }}

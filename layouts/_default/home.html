@@ -1,10 +1,9 @@
 {{ define "main" }}
-  {{ partial "title.html" . }}
-  {{ partial "categories.html" }}
-  {{ partial "featured.html" . }}
-  <section class="galleries">
-    {{ range where .Pages "Params.private" "ne" true }}
-      {{ partial "album-card.html" . }}
+  <div class="gallery">
+    {{ range where .Site.RegularPages "Section" "!=" "" }}
+      {{ range .Resources.ByType "image" }}
+        <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
+      {{ end }}
     {{ end }}
-  </section>
+  </div>
 {{ end }}
