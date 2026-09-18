@@ -16,7 +16,7 @@
     .container { max-width: 1400px; margin: 0 auto; flex: 1; }
     .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 40px 0; auto-rows: 350px; }
     .gallery a { display: block; cursor: pointer; border-radius: 8px; overflow: hidden; background: #333; }
-    .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+    .gallery img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.3s; }
     .gallery a:hover img { transform: scale(1.05); }
     .content { max-width: 800px; margin: 40px auto; line-height: 1.6; }
     .content h2 { margin: 20px 0 10px; font-size: 1.8em; }
@@ -66,7 +66,7 @@
     <div class="modal-content" onclick="event.stopPropagation()">
       <div class="modal-close" onclick="closeModal()">×</div>
       <div class="modal-img-container" id="modalImgContainer">
-        <img class="modal-img" id="modalImg" onclick="toggleZoom(event)">
+        <img class="modal-img" id="modalImg">
       </div>
       <div class="modal-info">
         <div class="modal-title" id="modalTitle"></div>
@@ -85,6 +85,8 @@
     let isZoomed = false;
     let dragStartX = 0, dragStartY = 0;
     let offsetX = 0, offsetY = 0;
+    let isDragging = false;
+    let clickThreshold = 5; // pixels
 
     function initGallery() {
       const galleryLinks = document.querySelectorAll('.pswp-gallery a');
@@ -104,6 +106,7 @@
 
       const img = document.getElementById('modalImg');
       img.addEventListener('mousedown', startDrag);
+      img.addEventListener('click', handleImageClick);
       document.addEventListener('mousemove', dragImage);
       document.addEventListener('mouseup', stopDrag);
     }
@@ -139,19 +142,22 @@
       offsetY = 0;
     }
 
-    function toggleZoom(e) {
-      e.stopPropagation();
-      const img = e.target;
-      if (isZoomed) {
-        img.style.transform = 'scale(1) translate(0, 0)';
-        img.classList.remove('zoomed');
-        isZoomed = false;
-        offsetX = 0;
-        offsetY = 0;
-      } else {
-        img.style.transform = 'scale(2)';
-        img.classList.add('zoomed');
-        isZoomed = true;
+    function handleImageClick(e) {
+      // Only toggle zoom on click if not dragging
+      if (!isDragging) {
+        e.stopPropagation();
+        const img = e.target;
+        if (isZoomed) {
+          img.style.transform = 'scale(1) translate(0, 0)';
+          img.classList.remove('zoomed');
+          isZoomed = false;
+          offsetX = 0;
+          offsetY = 0;
+        } else {
+          img.style.transform = 'scale(2)';
+          img.classList.add('zoomed');
+          isZoomed = true;
+        }
       }
     }
 
@@ -159,6 +165,7 @@
       if (!isZoomed) return;
       dragStartX = e.clientX;
       dragStartY = e.clientY;
+      isDragging = false;
       e.preventDefault();
     }
 
@@ -166,18 +173,27 @@
       if (!isZoomed || dragStartX === 0) return;
       const deltaX = e.clientX - dragStartX;
       const deltaY = e.clientY - dragStartY;
-      offsetX += deltaX;
-      offsetY += deltaY;
-      dragStartX = e.clientX;
-      dragStartY = e.clientY;
       
-      const img = document.getElementById('modalImg');
-      img.style.transform = `scale(2) translate(${offsetX}px, ${offsetY}px)`;
+      // Only start dragging if movement exceeds threshold
+      if (Math.abs(deltaX) > clickThreshold || Math.abs(deltaY) > clickThreshold) {
+        isDragging = true;
+      }
+      
+      if (isDragging) {
+        offsetX += deltaX;
+        offsetY += deltaY;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        
+        const img = document.getElementById('modalImg');
+        img.style.transform = `scale(2) translate(${offsetX}px, ${offsetY}px)`;
+      }
     }
 
     function stopDrag() {
       dragStartX = 0;
       dragStartY = 0;
+      isDragging = false;
     }
 
     function nextImage() {
