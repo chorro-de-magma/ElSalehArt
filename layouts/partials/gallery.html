@@ -1,0 +1,10 @@
+{{ $images := .Resources.ByType "image" }}
+{{ if gt (len $images) 0 }}
+  <div class="gallery">
+    {{ range $images }}
+      <figure>
+        <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
+      </figure>
+    {{ end }}
+  </div>
+{{ end }}
