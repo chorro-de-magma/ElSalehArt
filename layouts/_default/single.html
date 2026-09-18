@@ -6,12 +6,12 @@
     {{ .Content }}
   </div>
 
-  <div class="gallery pswp-gallery">
+  <div class="gallery">
     {{ range .Resources.ByType "image" }}
       {{ $alt := .Title }}
       {{ if not $alt }}{{ $alt = .Name }}{{ end }}
       <div class="gallery-item">
-        <a href="{{ .Permalink }}" target="_blank" rel="noreferrer">
+        <a href="{{ .Permalink }}" data-lightbox="gallery-{{ .Page.Title }}" data-title="{{ $alt }}">
           <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
           <div class="gallery-item-info">
             <div class="gallery-item-title">{{ $alt }}</div>
