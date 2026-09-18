@@ -1,9 +1,12 @@
 {{ $images := .Resources.ByType "image" }}
 {{ if gt (len $images) 0 }}
-  <div class="gallery">
+  <div class="gallery" data-pswp-uid="1">
     {{ range $images }}
-      <figure>
-        <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
+      <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+        <a href="{{ .Permalink }}" itemprop="url" data-pswp-width="{{ .Width }}" data-pswp-height="{{ .Height }}">
+          <img src="{{ .RelPermalink }}" itemprop="thumbnail" alt="{{ .Title }}" />
+        </a>
+        {{ if .Title }}<figcaption itemprop="caption description">{{ .Title }}</figcaption>{{ end }}
       </figure>
     {{ end }}
   </div>
