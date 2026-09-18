@@ -4,13 +4,13 @@
     <p>Explore curated collections of lithography, paintings, photographs, and wooden sculptures.</p>
   </div>
 
-  <div class="gallery">
+  <div class="gallery pswp-gallery">
     {{ range .Site.RegularPages }}
       {{ if ne .Section "" }}
         {{ range .Resources.ByType "image" }}
           {{ $alt := .Title }}
           {{ if not $alt }}{{ $alt = .Name }}{{ end }}
-          <a href="{{ .Permalink }}" data-lightbox="gallery" data-title="{{ $alt }}">
+          <a href="{{ .Permalink }}" target="_blank" rel="noreferrer">
             <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
           </a>
         {{ end }}
