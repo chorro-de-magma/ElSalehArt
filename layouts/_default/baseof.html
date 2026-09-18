@@ -21,6 +21,9 @@
     .content h2 { margin: 20px 0 10px; font-size: 1.8em; }
     .content p { margin-bottom: 15px; }
     footer { text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid #333; color: #666; }
+    /* Photoswipe customization */
+    .pswp__img { object-fit: contain !important; }
+    .pswp__scroll-wrap { background: rgba(0,0,0,0.9); }
   </style>
 </head>
 <body>
@@ -47,11 +50,20 @@
 
   <script type="module">
     import PhotoSwipeLightbox from 'https://cdn.jsdelivr.net/npm/photoswipe@5.4.1/dist/photoswipe-lightbox.esm.min.js';
+    import PhotoSwipe from 'https://cdn.jsdelivr.net/npm/photoswipe@5.4.1/dist/photoswipe.esm.min.js';
+    
     const lightbox = new PhotoSwipeLightbox({
       gallery: '.pswp-gallery',
       children: 'a',
-      pswpModule: () => import('https://cdn.jsdelivr.net/npm/photoswipe@5.4.1/dist/photoswipe.esm.min.js')
+      pswpModule: PhotoSwipe
     });
+    
+    lightbox.on('init', () => {
+      const pswp = lightbox.pswp;
+      pswp.options.maxSpreadZoom = 1.5;
+      pswp.options.initialZoomLevel = 0.9;
+    });
+    
     lightbox.init();
   </script>
 </body>
