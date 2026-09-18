@@ -10,14 +10,9 @@
     {{ range .Resources.ByType "image" }}
       {{ $alt := .Title }}
       {{ if not $alt }}{{ $alt = .Name }}{{ end }}
-      <div class="gallery-item">
-        <a href="{{ .Permalink }}" data-lightbox="gallery-{{ .Page.Title }}" data-title="{{ $alt }}">
-          <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
-          <div class="gallery-item-info">
-            <div class="gallery-item-title">{{ $alt }}</div>
-          </div>
-        </a>
-      </div>
+      <a href="{{ .Permalink }}" data-lightbox="gallery" data-title="{{ $alt }}">
+        <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
+      </a>
     {{ end }}
   </div>
 {{ end }}
