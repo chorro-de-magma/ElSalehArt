@@ -16,7 +16,7 @@
     .container { max-width: 1400px; margin: 0 auto; flex: 1; }
     .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 40px 0; auto-rows: 280px; }
     .gallery a { display: block; cursor: pointer; border-radius: 8px; overflow: hidden; background: #333; }
-    .gallery img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.3s; }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
     .gallery a:hover img { transform: scale(1.05); }
     .content { max-width: 800px; margin: 40px auto; line-height: 1.6; }
     .content h2 { margin: 20px 0 10px; font-size: 1.8em; }
@@ -143,8 +143,8 @@
     }
 
     function handleImageClick(e) {
-      // Only toggle zoom on pure click (no dragging occurred)
-      if (!isDragging && dragStartX === 0 && dragStartY === 0) {
+      // Only toggle zoom on pure click (user didn't drag)
+      if (!isDragging) {
         e.stopPropagation();
         const img = e.target;
         if (isZoomed) {
@@ -159,6 +159,10 @@
           isZoomed = true;
         }
       }
+      // Always reset after click
+      isDragging = false;
+      dragStartX = 0;
+      dragStartY = 0;
     }
 
     function startDrag(e) {
