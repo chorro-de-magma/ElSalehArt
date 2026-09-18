@@ -24,6 +24,7 @@
     /* Photoswipe customization */
     .pswp__img { object-fit: contain !important; }
     .pswp__scroll-wrap { background: rgba(0,0,0,0.95); }
+    .pswp--animate_opacity { opacity: 1 !important; }
   </style>
 </head>
 <body>
@@ -55,7 +56,9 @@
     const lightbox = new PhotoSwipeLightbox({
       gallery: '.pswp-gallery',
       children: 'a',
-      pswpModule: PhotoSwipe
+      pswpModule: PhotoSwipe,
+      showAnimationDuration: 0,
+      hideAnimationDuration: 0
     });
     
     lightbox.on('init', () => {
