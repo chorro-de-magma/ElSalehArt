@@ -23,7 +23,7 @@
     footer { text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid #333; color: #666; }
     /* Photoswipe customization */
     .pswp__img { object-fit: contain !important; }
-    .pswp__scroll-wrap { background: rgba(0,0,0,0.9); }
+    .pswp__scroll-wrap { background: rgba(0,0,0,0.95); }
   </style>
 </head>
 <body>
@@ -60,8 +60,9 @@
     
     lightbox.on('init', () => {
       const pswp = lightbox.pswp;
-      pswp.options.maxSpreadZoom = 1.5;
-      pswp.options.initialZoomLevel = 0.9;
+      pswp.options.maxSpreadZoom = 2;
+      pswp.options.initialZoomLevel = 0.7;
+      pswp.options.secondaryZoomLevel = 1.5;
     });
     
     lightbox.init();
