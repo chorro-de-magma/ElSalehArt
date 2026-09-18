@@ -3,7 +3,7 @@
   <div class="gallery" data-pswp-uid="1">
     {{ range $images }}
       <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-        <a href="{{ .Permalink }}" itemprop="url" data-pswp-width="{{ .Width }}" data-pswp-height="{{ .Height }}">
+        <a href="{{ .Permalink }}" itemprop="url">
           <img src="{{ .RelPermalink }}" itemprop="thumbnail" alt="{{ .Title }}" />
         </a>
         {{ if .Title }}<figcaption itemprop="caption description">{{ .Title }}</figcaption>{{ end }}
