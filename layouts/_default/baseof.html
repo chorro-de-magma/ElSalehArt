@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ .Site.Params.title }}</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.1/dist/photoswipe.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #1a1a1a; color: #fff; padding: 20px; }
@@ -21,10 +20,16 @@
     .content h2 { margin: 20px 0 10px; font-size: 1.8em; }
     .content p { margin-bottom: 15px; }
     footer { text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid #333; color: #666; }
-    /* Photoswipe customization */
-    .pswp__img { object-fit: contain !important; }
-    .pswp__scroll-wrap { background: rgba(0,0,0,0.95); }
-    .pswp--animate_opacity { opacity: 1 !important; }
+    
+    /* Modal styles */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; }
+    .modal.active { display: flex; align-items: center; justify-content: center; }
+    .modal-img { max-width: 90vw; max-height: 90vh; object-fit: contain; cursor: zoom-in; transition: transform 0.2s; }
+    .modal-img.zoomed { cursor: zoom-out; }
+    .modal-close { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; }
+    .modal-nav { position: absolute; width: 100%; display: flex; justify-content: space-between; top: 50%; transform: translateY(-50%); }
+    .modal-nav button { background: rgba(255,255,255,0.2); border: none; color: #fff; font-size: 30px; padding: 20px; cursor: pointer; }
+    .modal-nav button:hover { background: rgba(255,255,255,0.4); }
   </style>
 </head>
 <body>
@@ -49,26 +54,82 @@
     <p>&copy; {{ now.Year }} {{ .Site.Params.author }}. All rights reserved.</p>
   </footer>
 
-  <script type="module">
-    import PhotoSwipeLightbox from 'https://cdn.jsdelivr.net/npm/photoswipe@5.4.1/dist/photoswipe-lightbox.esm.min.js';
-    import PhotoSwipe from 'https://cdn.jsdelivr.net/npm/photoswipe@5.4.1/dist/photoswipe.esm.min.js';
-    
-    const lightbox = new PhotoSwipeLightbox({
-      gallery: '.pswp-gallery',
-      children: 'a',
-      pswpModule: PhotoSwipe,
-      showAnimationDuration: 0,
-      hideAnimationDuration: 0
+  <div class="modal" id="modal">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    <img class="modal-img" id="modalImg" onclick="toggleZoom(event)">
+    <div class="modal-nav">
+      <button onclick="prevImage()">❮</button>
+      <button onclick="nextImage()">❯</button>
+    </div>
+  </div>
+
+  <script>
+    let currentIndex = 0;
+    let images = [];
+    let isZoomed = false;
+
+    function initGallery() {
+      const galleryLinks = document.querySelectorAll('.pswp-gallery a');
+      images = Array.from(galleryLinks).map(link => link.href);
+      
+      galleryLinks.forEach((link, idx) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentIndex = idx;
+          openModal();
+        });
+      });
+    }
+
+    function openModal() {
+      document.getElementById('modal').classList.add('active');
+      updateImage();
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      isZoomed = false;
+    }
+
+    function updateImage() {
+      const img = document.getElementById('modalImg');
+      img.src = images[currentIndex];
+      img.classList.remove('zoomed');
+      isZoomed = false;
+    }
+
+    function toggleZoom(e) {
+      const img = e.target;
+      if (isZoomed) {
+        img.style.transform = 'scale(1)';
+        img.classList.remove('zoomed');
+        isZoomed = false;
+      } else {
+        img.style.transform = 'scale(1.5)';
+        img.classList.add('zoomed');
+        isZoomed = true;
+      }
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateImage();
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateImage();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('modal').classList.contains('active')) {
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+        if (e.key === 'Escape') closeModal();
+      }
     });
-    
-    lightbox.on('init', () => {
-      const pswp = lightbox.pswp;
-      pswp.options.maxSpreadZoom = 2;
-      pswp.options.initialZoomLevel = 0.7;
-      pswp.options.secondaryZoomLevel = 1.5;
-    });
-    
-    lightbox.init();
+
+    document.addEventListener('DOMContentLoaded', initGallery);
   </script>
 </body>
 </html>
