@@ -25,12 +25,16 @@
     /* Modal styles */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 1000; align-items: center; justify-content: center; }
     .modal.active { display: flex; }
-    .modal-content { position: relative; max-width: 90%; max-height: 90%; }
-    .modal-img { max-width: 100%; max-height: 85vh; object-fit: contain; cursor: zoom-in; transition: transform 0.2s; }
+    .modal-content { position: relative; max-width: 90%; max-height: 90%; display: flex; flex-direction: column; }
+    .modal-img-container { display: flex; align-items: center; justify-content: center; flex: 1; min-height: 0; }
+    .modal-img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; transition: transform 0.2s; }
     .modal-img.zoomed { cursor: zoom-out; }
+    .modal-info { background: rgba(255,255,255,0.05); padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    .modal-title { font-size: 1.2em; font-weight: bold; margin-bottom: 5px; }
+    .modal-caption { font-size: 0.9em; color: rgba(255,255,255,0.7); }
     .modal-close { position: absolute; top: -40px; right: 0; color: #fff; font-size: 36px; cursor: pointer; user-select: none; }
-    .modal-nav { position: absolute; width: calc(100% + 100px); height: 100%; display: flex; justify-content: space-between; align-items: center; left: -50px; top: 0; }
-    .modal-nav button { background: transparent; border: none; color: rgba(255,255,255,0.5); font-size: 48px; cursor: pointer; padding: 20px; user-select: none; }
+    .modal-nav { position: absolute; width: calc(100% + 100px); height: 100%; display: flex; justify-content: space-between; align-items: center; left: -50px; top: 0; pointer-events: none; }
+    .modal-nav button { background: transparent; border: none; color: rgba(255,255,255,0.5); font-size: 48px; cursor: pointer; padding: 20px; user-select: none; pointer-events: auto; }
     .modal-nav button:hover { color: rgba(255,255,255,0.8); }
   </style>
 </head>
@@ -59,7 +63,13 @@
   <div class="modal" id="modal" onclick="closeOnBackdrop(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
       <div class="modal-close" onclick="closeModal()">×</div>
-      <img class="modal-img" id="modalImg" onclick="toggleZoom(event)">
+      <div class="modal-img-container">
+        <img class="modal-img" id="modalImg" onclick="toggleZoom(event)">
+      </div>
+      <div class="modal-info">
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-caption" id="modalCaption"></div>
+      </div>
       <div class="modal-nav">
         <button onclick="prevImage()">❮</button>
         <button onclick="nextImage()">❯</button>
@@ -74,7 +84,11 @@
 
     function initGallery() {
       const galleryLinks = document.querySelectorAll('.pswp-gallery a');
-      images = Array.from(galleryLinks).map(link => link.href);
+      images = Array.from(galleryLinks).map(link => ({
+        src: link.href,
+        title: link.dataset.title || link.querySelector('img').alt || 'Untitled',
+        caption: link.dataset.caption || ''
+      }));
       
       galleryLinks.forEach((link, idx) => {
         link.addEventListener('click', (e) => {
@@ -102,9 +116,11 @@
 
     function updateImage() {
       const img = document.getElementById('modalImg');
-      img.src = images[currentIndex];
+      img.src = images[currentIndex].src;
       img.style.transform = 'scale(1)';
       img.classList.remove('zoomed');
+      document.getElementById('modalTitle').textContent = images[currentIndex].title;
+      document.getElementById('modalCaption').textContent = images[currentIndex].caption;
       isZoomed = false;
     }
 
