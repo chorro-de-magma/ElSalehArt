@@ -9,7 +9,7 @@
     {{ range .Resources.ByType "image" }}
       {{ $alt := .Title }}
       {{ if not $alt }}{{ $alt = .Name }}{{ end }}
-      <a href="{{ .Permalink }}" target="_blank" rel="noreferrer">
+      <a href="{{ .Permalink }}" data-title="{{ $alt }}">
         <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
       </a>
     {{ end }}
