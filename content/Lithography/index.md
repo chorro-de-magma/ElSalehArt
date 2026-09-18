@@ -1,11 +1,8 @@
 ---
-date: 2023-01-12
 title: Lithography
+description: Lithographic prints exploring traditional printing techniques
+exhibition: "Gallery Exhibition 2024"
 weight: 0
-description: Lithographic prints and works exploring traditional printing techniques.
-menus: "main"
-resources:
-  - src: signal-2026-09-16-12-36-46-958_002.jpg
-    params:
-      cover: true
 ---
+
+A collection of lithographic works created using classical methods.

@@ -1,0 +1,20 @@
+{{ define "main" }}
+  <div class="content">
+    <h2>Welcome to El Saleh Art</h2>
+    <p>Explore curated collections of lithography, paintings, photographs, and wooden sculptures.</p>
+  </div>
+
+  <div class="gallery pswp-gallery">
+    {{ range .Site.RegularPages }}
+      {{ if ne .Section "" }}
+        {{ range .Resources.ByType "image" }}
+          {{ $alt := .Title }}
+          {{ if not $alt }}{{ $alt = .Name }}{{ end }}
+          <a href="{{ .Permalink }}" data-pswp-width="{{ .Width }}" data-pswp-height="{{ .Height }}" target="_blank" rel="noreferrer">
+            <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
+          </a>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  </div>
+{{ end }}
