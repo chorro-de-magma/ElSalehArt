@@ -10,7 +10,7 @@
         {{ range .Resources.ByType "image" }}
           {{ $alt := .Title }}
           {{ if not $alt }}{{ $alt = .Name }}{{ end }}
-          <a href="{{ .Permalink }}" data-pswp-width="{{ .Width }}" data-pswp-height="{{ .Height }}" target="_blank" rel="noreferrer">
+          <a href="{{ .Permalink }}" target="_blank" rel="noreferrer">
             <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
           </a>
         {{ end }}

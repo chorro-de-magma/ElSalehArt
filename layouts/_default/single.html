@@ -11,7 +11,7 @@
       {{ $alt := .Title }}
       {{ if not $alt }}{{ $alt = .Name }}{{ end }}
       <div class="gallery-item">
-        <a href="{{ .Permalink }}" data-pswp-width="{{ .Width }}" data-pswp-height="{{ .Height }}" target="_blank" rel="noreferrer">
+        <a href="{{ .Permalink }}" target="_blank" rel="noreferrer">
           <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
           <div class="gallery-item-info">
             <div class="gallery-item-title">{{ $alt }}</div>
