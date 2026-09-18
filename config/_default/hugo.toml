@@ -1,6 +1,6 @@
 copyright = "© Your Name"
 defaultContentLanguage = "en"
-disableKinds = ["taxonomy"]
+disableKinds = ["taxonomy", "RSS"]
 enableRobotsTXT = true
 languageCode = "en"
 timeZone = "Europe/Berlin"
@@ -16,7 +16,7 @@ title = "Gallery"
     name = "Your Name"
 
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML"]
   page = ["HTML"]
   section = ["HTML"]
 
@@ -39,7 +39,3 @@ title = "Gallery"
     name = "GitHub"
     url = "https://github.com/nicokaiser/hugo-theme-gallery/"
     weight = 3
-
-[services]
-  [services.rss]
-    limit = 100
