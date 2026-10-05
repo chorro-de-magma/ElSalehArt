@@ -10,7 +10,7 @@
     {{ range .Resources.ByType "image" }}
       {{ $alt := .Title }}
       {{ if not $alt }}{{ $alt = .Name }}{{ end }}
-      <a href="{{ .Permalink }}" data-title="{{ $alt }}">
+      <a href="{{ .Permalink }}" data-title="{{ $alt }}" data-caption="{{ .Params.caption | default "" }}">
         <img src="{{ .RelPermalink }}" alt="{{ $alt }}" />
       </a>
     {{ end }}
