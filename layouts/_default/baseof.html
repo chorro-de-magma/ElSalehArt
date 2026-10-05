@@ -13,8 +13,8 @@
     nav { margin: 30px 0; text-align: center; }
     nav a { color: #0099ff; text-decoration: none; margin: 0 15px; font-size: 1.1em; }
     nav a:hover { text-decoration: underline; }
-    .container { max-width: 1400px; margin: 0 auto; flex: 1; }
-    .gallery { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; margin: 40px 0; }
+    .container { width: min(96vw, 1800px); max-width: none; margin: 0 auto; flex: 1; }
+    .gallery { width: 100%; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 12px; margin: 40px auto; }
     .gallery a { display: block; flex: 0 0 auto; height: 300px; cursor: pointer; border-radius: 8px; overflow: hidden; background: #333; }
     .gallery img { display: block; width: auto; height: 100%; object-fit: contain; transition: transform 0.3s; }
     .gallery a:hover img { transform: scale(1.03); }
