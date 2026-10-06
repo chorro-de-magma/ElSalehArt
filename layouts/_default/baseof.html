@@ -21,8 +21,8 @@
     @media (max-width: 700px) {
       body { padding: 12px; }
       header { margin: 24px 0; }
-      nav { gap: 10px 18px; margin: 22px auto; }
-      nav a { font-size: 1em; }
+      nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: min(100%, 360px); gap: 10px 14px; margin: 22px auto; }
+      nav a { font-size: 1em; text-align: center; }
       .container { width: 100%; }
       .gallery { width: 100%; gap: 8px; }
       .gallery a { height: 180px; max-width: calc(100vw - 24px); }
@@ -42,8 +42,8 @@
     .modal-img.zoomed { cursor: grab; }
     .modal-img.zoomed:active { cursor: grabbing; }
     .modal-info { background: rgba(255,255,255,0.05); padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
-    .modal-title { font-size: 1.2em; font-weight: bold; margin-bottom: 5px; }
-    .modal-caption { font-size: 0.9em; color: rgba(255,255,255,0.7); }
+    .modal-title { display: none; }
+    .modal-caption { font-size: 1rem; color: rgba(255,255,255,0.85); }
     .modal-close { position: absolute; top: -40px; right: 0; color: #fff; font-size: 36px; cursor: pointer; user-select: none; }
     .modal-nav { position: absolute; width: calc(100% + 100px); height: 100%; display: flex; justify-content: space-between; align-items: center; left: -50px; top: 0; pointer-events: none; }
     .modal-nav button { background: transparent; border: none; color: rgba(255,255,255,0.5); font-size: 48px; cursor: pointer; padding: 20px; user-select: none; pointer-events: auto; }
@@ -103,7 +103,6 @@
       const galleryLinks = document.querySelectorAll('.pswp-gallery a');
       images = Array.from(galleryLinks).map(link => ({
         src: link.href,
-        title: link.dataset.title || link.querySelector('img').alt || 'Untitled',
         caption: link.dataset.caption || ''
       }));
       
@@ -146,7 +145,7 @@
       img.src = images[currentIndex].src;
       img.style.transform = 'scale(1) translate(0, 0)';
       img.classList.remove('zoomed');
-      document.getElementById('modalTitle').textContent = images[currentIndex].title;
+      document.getElementById('modalTitle').textContent = '';
       document.getElementById('modalCaption').textContent = images[currentIndex].caption;
       isZoomed = false;
       offsetX = 0;
